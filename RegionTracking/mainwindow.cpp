@@ -77,6 +77,8 @@ void MainWindow::on_run_button_clicked()
         if(count % 100 == 0)
         {
             m_level_set.m_image.save(QString::fromStdString("./output/" + std::to_string(count) + ".png"));
+            // Check that master hasn't been altered
+            // m_level_set.m_image_master.save(QString::fromStdString("./output/master_" + std::to_string(count) + ".png"));
         }
 
 

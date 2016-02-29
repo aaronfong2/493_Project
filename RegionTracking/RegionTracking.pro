@@ -19,3 +19,5 @@ HEADERS  += mainwindow.h \
          levelset.h
 
 FORMS    += mainwindow.ui
+
+CONFIG += c++11
