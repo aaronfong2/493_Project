@@ -1,6 +1,7 @@
 #include "levelset.h"
 
 #include <math.h>
+#include <iostream>
 
 #include <QImage>
 
@@ -60,7 +61,7 @@ float LevelSet::descent_func()
             m_deriv_xy.at(i).at(j) = second_deriv(i,j,1,0);
             m_deriv_yx.at(i).at(j) = second_deriv(i,j,0,1);
             m_deriv_yy.at(i).at(j) = second_deriv(i,j,0,0);
-            m_deriv_xx.at(i).at(j)= second_deriv(i,j,1,1);
+            m_deriv_xx.at(i).at(j) = second_deriv(i,j,1,1);
             m_du_dx_pos.at(i).at(j) = first_deriv(i,j,1,1);
             m_du_dx_neg.at(i).at(j) = first_deriv(i,j,-1,1);
             m_du_dy_pos.at(i).at(j) = first_deriv(i,j,1,0);
@@ -178,29 +179,24 @@ float LevelSet::central_diff(int i, int j, int direction){
 
     if(direction == YDIR)
     {
-        if(j >= m_height - 1)
+        if(j >= m_height - 1 || j <= 0)
         {
-            return (m_u.at(i).at(j) - m_u.at(i).at(j-1)) / 2;
-        }
-        else if(j <= 0)
-        {
-            return (m_u.at(i).at(j+1) - m_u.at(i).at(j)) / 2;
+            // This should not be reached
+            std::cout << "ERR: central_diff(" << i << "," << j << "," << direction << ") called.";
+            return 0;
         }
         else
         {
             return (m_u.at(i).at(j+1) - m_u.at(i).at(j-1)) / 2;
         }
-        
     }
     else if(direction == XDIR)
     {
-        if(i >= m_width - 1)
+        if(i >= m_width - 1 || i <= 0)
         {
-            return (m_u.at(i).at(j) - m_u.at(i-1).at(j)) / 2;
-        }
-        else if(i <= 0)
-        {
-            return (m_u.at(i+1).at(j) - m_u.at(i).at(j)) / 2;
+            // This should not be reached
+            std::cout << "ERR: central_diff(" << i << "," << j << "," << direction << ") called.";
+            return 0;
         }
         else
         {
@@ -219,8 +215,11 @@ float LevelSet::second_deriv(int i, int j, int first_direction, int second_direc
      * direction == 1 is dx
      * i is x coordinate, j is y coordinate
      */
-    if (i <= 0 || i >= m_width-1 || j <= 0 || j >= m_height-1)
+
+	if (i <= 0 || i >= m_width-1 || j <= 0 || j >= m_height-1)
     {
+        // This should not be reached
+        std::cout << "ERR:second_deriv(" << i << "," << j << "," << first_direction << "," << second_direction << ") called.";
         return 0;
     }
     else if(first_direction == YDIR && second_direction == YDIR)
@@ -248,7 +247,7 @@ float LevelSet::first_deriv(int i, int j, int direc, int var)
      * > 0 , forward difference
      * < 0 , backward difference
      */
-    if(var == 0)
+    if(var == YDIR)
     {
         if(direc < 0)
         {
@@ -258,7 +257,8 @@ float LevelSet::first_deriv(int i, int j, int direc, int var)
             }
             if(j == 0)
             {
-                return m_u.at(i).at(j) + 1.0;
+                std::cout << "ERR: first_deriv(" << i << "," << j << "," << direc << "," << var << ") called.";
+                return 0;
             }
         }
         if(direc > 0)
@@ -269,11 +269,12 @@ float LevelSet::first_deriv(int i, int j, int direc, int var)
             }
             if(j == m_height - 1)
             {
-                return -1.0 - m_u.at(i).at(j);
+                std::cout << "ERR: first_deriv(" << i << "," << j << "," << direc << "," << var << ") called.";
+                return 0;
             }
         }
     }
-    if(var == 1)
+    if(var == XDIR)
     {
         if(direc < 0)
         {
@@ -283,7 +284,8 @@ float LevelSet::first_deriv(int i, int j, int direc, int var)
             }
             if(i == 0)
             {
-                return m_u.at(i).at(j) + 1.0;
+                std::cout << "ERR: first_deriv(" << i << "," << j << "," << direc << "," << var << ") called.";
+                return 0;
             }
         }
         if(direc > 0)
@@ -294,7 +296,8 @@ float LevelSet::first_deriv(int i, int j, int direc, int var)
             }
             if(i == m_width - 1)
             {
-                return -1.0 - m_u.at(i).at(j);
+                std::cout << "ERR: first_deriv(" << i << "," << j << "," << direc << "," << var << ") called.";
+                return 0;
             }
         }
     }
