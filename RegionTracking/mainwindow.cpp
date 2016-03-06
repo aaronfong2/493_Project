@@ -68,7 +68,8 @@ void MainWindow::on_run_button_clicked()
     float t = 0;
     int count = 0;
 
-    while(count <= 10000)
+    while (true)
+    //while(count <= 10000)
     {
         t += m_level_set.descent_func();
 
@@ -77,11 +78,13 @@ void MainWindow::on_run_button_clicked()
         if(count % 100 == 0)
         {
             m_level_set.m_image.save(QString::fromStdString("./output/" + std::to_string(count) + ".png"));
+
             // Check that master hasn't been altered
             // m_level_set.m_image_master.save(QString::fromStdString("./output/master_" + std::to_string(count) + ".png"));
         }
 
-
+	// Commenting this block out for now as memory is leaking in here (likely QGraphicsScene*)
+/*
         QPixmap pixmap(QPixmap::fromImage(m_level_set.m_image));
         QGraphicsScene* scene = new QGraphicsScene;
         scene->addPixmap(pixmap);
@@ -91,7 +94,7 @@ void MainWindow::on_run_button_clicked()
 
         ui->graphicsView->repaint();
         qApp->processEvents();
-
+*/
         count += 1;
     }
 }

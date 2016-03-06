@@ -1,6 +1,9 @@
 #ifndef LEVELSET_H
 #define LEVELSET_H
 
+#define XDIR 1
+#define YDIR 0
+
 #include <vector>
 
 
