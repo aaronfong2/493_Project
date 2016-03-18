@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-02-21T16:25:28
+# Project created by QtCreator 2016-03-17T17:32:30
 #
 #-------------------------------------------------
 
@@ -11,11 +11,17 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = RegionTracking
 TEMPLATE = app
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-        levelset.cpp
 
-HEADERS  += mainwindow.h \
-         levelset.h
+SOURCES += \
+    levelset.cpp \
+    mainwindow.cpp \
+    main.cpp
 
-FORMS    += mainwindow.ui
+HEADERS  += \
+    levelset.h \
+    mainwindow.h
+
+FORMS += \
+    mainwindow.ui
+
+CONFIG += c++11
